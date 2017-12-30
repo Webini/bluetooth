@@ -1,10 +1,11 @@
 class Agent {
-  constructor() {
-    this.val = 'lala';
+  constructor(path = '/nodejs/agent') {
+    this.path = path;
   }
+
   //dbus-send --type=method_call --print-reply --session --dest=org.bluez.Agent1 /nodejs/agent org.bluez.Agent1.Release
   release() {
-    console.log('release', this.val);
+    console.log('release');
   }
   requestPinCode(device, pin) {
     console.log('requestPinCode', device, pin);

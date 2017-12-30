@@ -15,8 +15,11 @@ function createIface(agent) {
   const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(agent));
   return methods
     .reduce((out, name) => {
-      const upperName = name.substr(0, 1).toUpperCase() + name.substr(1);
-      out[upperName] = agent[name].bind(agent);
+      const method = agent[name];
+      if (typeof method === 'function') {
+        const upperName = name.substr(0, 1).toUpperCase() + name.substr(1);
+        out[upperName] = method.bind(agent);
+      }
       return out;
     }, {})
   ;
@@ -26,6 +29,7 @@ class AgentManager extends EventEmitter {
   constructor() {
     super();
     this.manager = null;
+    this.nameRequested = false;
   }
 
   async getManager() {
@@ -37,19 +41,30 @@ class AgentManager extends EventEmitter {
     return this.manager;
   }
 
-  async registerAgent(agent, cap = AgentCapabilities.keyboardDisplay, path = '/nodejs/agent') {
+  async registerAgent(agent, cap = AgentCapabilities.keyboardDisplay) {
     const manager = await this.getManager();
-    const retCode = await sessionBus.requestName(AgentInterface.name, 0x04);
-    
-    if (retCode !== 1) {
-      throw new Error(`Cannot register service ${AgentInterface.name}`);
+    if (!this.nameRequested) {
+      const retCode = await sessionBus.requestName(AgentInterface.name, 0x04);
+      
+      if (retCode !== 1) {
+        throw new Error(`Cannot register service ${AgentInterface.name}`);
+      }
+      this.nameRequested = true;
     }
     
-    sessionBus.exportInterface(createIface(agent), path, AgentInterface);
-    await manager.RegisterAgent(path, cap);
+    sessionBus.exportInterface(createIface(agent), agent.path, AgentInterface);
+    await manager.RegisterAgent(agent.path, cap);
   }
 
+  async unregisterAgent(agent) {
+    const manager = await this.getManager();
+    await manager.UnregisterAgent(agent.path);
+  }
 
+  async requestDefaultAgent(agent) {
+    const manager = await this.getManager();
+    await manager.RequestDefaultAgent(agent.path);
+  }
 }
 
 module.exports = new AgentManager();

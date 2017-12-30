@@ -9,12 +9,22 @@ if (!bus || !sessionBus) {
 }
 
 bus.connection.on('error', function (err) {
-  debug('Dbus error', err);
+  debug('System Dbus error', err);
   throw err;
 });
 
 bus.connection.on('end', function () {
-  debug('Dbus end');
+  debug('System Dbus end');
+  process.exit(1);
+});
+
+sessionBus.connection.on('error', function (err) {
+  debug('Session Dbus error', err);
+  throw err;
+});
+
+sessionBus.connection.on('end', function () {
+  debug('Session Dbus end');
   process.exit(1);
 });
 

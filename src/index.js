@@ -14,7 +14,10 @@ const Agent = require('./Agent');
     }
 
     const agent = new Agent();
+    const agentbis = new Agent('/nodejs/agent2');
     await agentManager.registerAgent(agent);
+    await agentManager.unregisterAgent(agent);
+    await agentManager.registerAgent(agentbis);
 
   } catch(e) {
     console.log(e);
