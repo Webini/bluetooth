@@ -1,9 +1,10 @@
 const dbus = require('dbus-native');
 const promisify = require('./promisify');
 const bus = dbus.systemBus();
+const sessionBus = dbus.sessionBus();
 const debug = require('debug')('bluetooth');
 
-if (!bus) {
+if (!bus || !sessionBus) {
   throw new Error('Could not connect to the DBus session bus');
 }
 
@@ -19,5 +20,11 @@ bus.connection.on('end', function () {
 
 const service = bus.getService('org.bluez');
 promisify(service, 'getInterface');
+promisify(bus, 'requestName');
+promisify(sessionBus, 'requestName');
 
-module.exports = service;
+module.exports = {
+  service,
+  bus,
+  sessionBus
+};
