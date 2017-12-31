@@ -40,9 +40,10 @@ class ObjectManager extends EventEmitter {
   }
   
   _deleteObject(name) {
-    if (this.objects[name]) {
+    const object = this.getObject(name);
+    if (object) {
       delete this.objects[name];
-      this.emit('removed', name);
+      this.emit('removed', object);
     }
     return this;
   }
