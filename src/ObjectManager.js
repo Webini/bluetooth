@@ -72,7 +72,7 @@ class ObjectManager extends EventEmitter {
       if (!this.getObject(data[0])) {
         this._createObject(data[0], data[1]);
       }
-    })
+    });
   }  
 }
 

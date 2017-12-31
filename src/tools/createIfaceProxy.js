@@ -15,18 +15,18 @@ module.exports = function (advertisement, interface) {
       const type = interface.properties[prop];
 
       switch (type) {
-        case 'as':
-          return [ value ];
-        case 'a{qay}':
-          return [ Object.keys(value).reduce((out, key) => {
-            out.push([ parseInt(key), value[key] ]);
-            return out;
-          }, []) ];
-        case 'a{say}':
-          return [ Object.keys(value).reduce((out, key) => {
-            out.push([ key, value[key] ]);
-            return out;
-          }, []) ];
+      case 'as':
+        return [ value ];
+      case 'a{qay}':
+        return [ Object.keys(value).reduce((out, key) => {
+          out.push([ parseInt(key), value[key] ]);
+          return out;
+        }, []) ];
+      case 'a{say}':
+        return [ Object.keys(value).reduce((out, key) => {
+          out.push([ key, value[key] ]);
+          return out;
+        }, []) ];
       } 
       
       return value;

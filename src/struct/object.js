@@ -1,4 +1,3 @@
-const get = require('lodash.get');
 const objectify = require('../tools/objectify');
 const Adapter = require('../Adapter');
 const Properties = require('../Properties');
@@ -6,12 +5,12 @@ const AdvertisingManager = require('../AdvertisingManager');
 const Device = require('../Device');
 const INTERFACES = require('./interfaces');
 
-module.exports = function (objectData) {
+module.exports = function ([ name, values ]) {
   const object = {};
 
-  object.name = objectData[0];
+  object.name = name;
 
-  object.interfaces = objectData[1].reduce((interfaces, [ name, values ]) => {
+  object.interfaces = values.reduce((interfaces, [ name, values ]) => {
     interfaces[name] = objectify(values);  
     return interfaces;
   }, {});

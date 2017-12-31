@@ -1,7 +1,6 @@
 const manager = require('../src/ObjectManager');
-const agentManager = require('../src/AgentManager');
-const { inspect } = require('util');
-const Agent = require('../src/Agent');
+// const agentManager = require('../src/AgentManager');
+// const Agent = require('../src/Agent');
 const Advertisement = require('../src/Advertisement');
 
 (async function() {

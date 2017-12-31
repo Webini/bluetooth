@@ -7,12 +7,12 @@ if (!bus) {
   throw new Error('Could not connect to the System DBus');
 }
 
-bus.connection.on('error', function (err) {
+bus.connection.on('error', (err) => {
   debug('System Dbus error', err);
   throw err;
 });
 
-bus.connection.on('end', function () {
+bus.connection.on('end', () => {
   debug('System Dbus end');
   process.exit(1);
 });

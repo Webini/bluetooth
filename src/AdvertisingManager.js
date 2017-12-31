@@ -1,11 +1,8 @@
 const { service, bus } = require('./dbus.js');
 const promisify = require('./promisify');
-const createObject = require('./struct/object');
 const EventEmitter = require('events');
 const AdvertisementInterface = require('./AdvertisementInterface');
 const createIfaceProxy = require('./tools/createIfaceProxy');
-
-const exportedSymbol = Symbol();
 
 const METHODS = [
   'RegisterAdvertisement', 

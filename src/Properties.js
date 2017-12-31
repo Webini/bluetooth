@@ -26,7 +26,7 @@ class Properties extends EventEmitter {
     this.iface = await service.getInterface(this.objectName, this.ifaceName);
     promisify(this.iface, METHODS);
 
-    this.iface.on('PropertiesChanged', (ifaceName, values, unk) => {
+    this.iface.on('PropertiesChanged', (ifaceName, values) => {
       this.emit('changed', objectify(values));
     });
   }

@@ -2,7 +2,6 @@ const EventEmitter = require('events');
 const { service } = require('./dbus.js');
 const INTERFACES = require('./struct/interfaces');
 const promisify = require('./promisify');
-const { inspect } = require('util');
 
 const METHODS = [
   'RemoveDevice',
@@ -66,7 +65,7 @@ class Adapter extends EventEmitter {
 
   async removeDevice(device) {
     const iface = await this.getInterface();
-    return await iface.RemoveDevice();
+    return await iface.RemoveDevice(device);
   }
 }
 
