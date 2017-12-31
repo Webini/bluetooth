@@ -1,7 +1,7 @@
 const EventEmitter = require('events');
 const { service } = require('./dbus');
 const promisify = require('./promisify');
-const objectify = require('./struct/objectify');
+const objectify = require('./tools/objectify');
 
 const METHODS = [
   'Get',
@@ -27,7 +27,6 @@ class Properties extends EventEmitter {
     promisify(this.iface, METHODS);
 
     this.iface.on('PropertiesChanged', (ifaceName, values, unk) => {
-      console.log('PROPERTIES CHANGED !! ', ifaceName, objectify(values), unk);
       this.emit('changed', objectify(values));
     });
   }

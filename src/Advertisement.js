@@ -11,6 +11,7 @@ class Advertisement {
     this.type = 'peripheral';
 
     this.serviceUUIDs = [
+      services.AdvancedAudioDistribution,
       services.AudioSource,
       services.HandsfreeAudioGateway,
       services.Handsfree
@@ -29,7 +30,7 @@ class Advertisement {
   }
 
   release() {
-    console.log('Release advertisement');
+    throw new Error('You must implement release method');
   }
 }
 

@@ -1,8 +1,9 @@
 const get = require('lodash.get');
-const objectify = require('./objectify');
+const objectify = require('../tools/objectify');
 const Adapter = require('../Adapter');
 const Properties = require('../Properties');
 const AdvertisingManager = require('../AdvertisingManager');
+const Device = require('../Device');
 const INTERFACES = require('./interfaces');
 
 module.exports = function (objectData) {
@@ -36,7 +37,8 @@ module.exports = function (objectData) {
 
   const deviceIface = object.findInterface(INTERFACES.device);
   if (deviceIface) {
-    object.device = null; //@todo
+    object.device = new Device(object.name, deviceIface);
+    object.isDevice = true;
   }
   
   const propertiesIface = object.findInterface(INTERFACES.properties);

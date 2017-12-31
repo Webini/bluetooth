@@ -27,7 +27,7 @@ const PROPERTIES = {
   Blocked: true,
   Alias: true,
   Adapter: false,
-  LegacyPairing: fasle,
+  LegacyPairing: false,
   Modalias: false,
   RSSI: false,
   TxPower: false,
@@ -38,17 +38,18 @@ const PROPERTIES = {
 };
 
 class Device extends EventEmitter {
-  constructor(object) {
+  constructor(objectName, ifaceName) {
     super();
-    this.object = object;
+    this.objectName = objectName;
+    this.ifaceName = ifaceName;
     this.iface = null;
   }
   
   async getInterface() {
     if (this.iface === null) {
       this.iface = await service.getInterface(
-        this.object.name,
-        this.object.findInterface(INTERFACES.adapter)
+        this.objectName,
+        this.ifaceName
       );
 
       promisify(this.iface, METHODS);
@@ -56,38 +57,44 @@ class Device extends EventEmitter {
     return this.iface;
   }
 
-  async startDiscovery() {
+  async connect() {
     const iface = await this.getInterface();
-    await iface.StartDiscovery();
+    await iface.Connect();
   }
 
-  async stopDiscovery() {
+  async disconnect() {
     const iface = await this.getInterface();
-    await iface.StopDiscovery();
+    await iface.Disconnect();
   }
 
-  /**
-   * https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/doc/adapter-api.txt
-   * @param {*} filters 
-   */
-  async setDiscoveryFilter(filters) {
+  async connectProfile(uuid) {
     const iface = await this.getInterface();
-    await iface.SetDiscoveryFilter(filters);
+    await iface.ConnectProfile(uuid);
   }
 
-  async removeDevice(device) {
+  async disconnectProfile(uuid) {
     const iface = await this.getInterface();
-    return await iface.RemoveDevice();
+    await iface.DisconnectProfile(uuid);
+  }
+
+  async pair() {
+    const iface = await this.getInterface();
+    await iface.Pair();
+  }
+
+  async cancelPairing() {
+    const iface = await this.getInterface();
+    await iface.CancelPairing();
   }
 }
 
 Object.keys(PROPERTIES).forEach((name) => {
-  Adapter.prototype[`get${name}`] = async function() {
+  Device.prototype[`get${name}`] = async function() {
     const iface = await this.getInterface();
     return iface[name];
   };
   if (PROPERTIES[name]) {
-    Adapter.prototype[`set${name}`] = async function(value) {
+    Device.prototype[`set${name}`] = async function(value) {
       const iface = await this.getInterface();
       iface[name] = value;
       return this;
@@ -95,4 +102,4 @@ Object.keys(PROPERTIES).forEach((name) => {
   }
 });
 
-module.exports = Adapter;
+module.exports = Device;

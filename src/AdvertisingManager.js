@@ -1,4 +1,4 @@
-const { service, bus, sessionBus } = require('./dbus.js');
+const { service, bus } = require('./dbus.js');
 const promisify = require('./promisify');
 const createObject = require('./struct/object');
 const EventEmitter = require('events');
