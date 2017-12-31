@@ -5,6 +5,8 @@ const EventEmitter = require('events');
 const AdvertisementInterface = require('./AdvertisementInterface');
 const createIfaceProxy = require('./tools/createIfaceProxy');
 
+const exportedSymbol = Symbol();
+
 const METHODS = [
   'RegisterAdvertisement', 
   'UnregisterAdvertisement'
@@ -22,7 +24,6 @@ class AdvertisingManager extends EventEmitter {
     this.adapterName = adapterName;
     this.managerName = managerName;
     this.manager = null;
-    this.nameRequested = false;
   }
 
   async getManager() {
@@ -36,14 +37,6 @@ class AdvertisingManager extends EventEmitter {
 
   async registerAdvertisement(advertisement, options = []) {
     const manager = await this.getManager();
-    if (!this.nameRequested) {
-      const retCode = await bus.requestName(AdvertisementInterface.name, 0x04);
-      
-      if (retCode !== 1) {
-        throw new Error(`Cannot register service ${AdvertisementInterface.name}`);
-      }
-      this.nameRequested = true;
-    }
 
     bus.exportInterface(
       createIfaceProxy(advertisement, AdvertisementInterface), 

@@ -36,12 +36,13 @@ const Advertisement = require('../src/Advertisement');
         }
 
         if (object.isDevice) {
+          console.log(await object.properties.getAll());
           object.properties.on('changed', value => {
             console.log(`${object.name} changed`, value);
-          })
+          });
         }
       } catch(e) {
-        console.log('Catch on new', e)
+        console.log('Catch on new', e);
       }
     }));
 
