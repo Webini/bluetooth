@@ -52,5 +52,11 @@ module.exports = function ([ name, values ]) {
     object.hasAdvertising = true;
   }
 
+  object.destroy = function() {
+    if (this.properties) {
+      this.properties.removeAllListeners();
+    }
+  };
+
   return object;
 };

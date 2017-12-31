@@ -42,6 +42,7 @@ class ObjectManager extends EventEmitter {
   _deleteObject(name) {
     const object = this.getObject(name);
     if (object) {
+      object.destroy();
       delete this.objects[name];
       this.emit('removed', object);
     }
