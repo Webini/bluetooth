@@ -6,13 +6,13 @@ class Agent {
   release() {
     throw new Error('You must implement release method');
   }
-  requestPinCode(device, pin) {
+  requestPinCode(device) {
     throw new Error('You must implement requestPinCode method');
   }
   displayPinCode(device, pin) {
     throw new Error('You must implement displayPinCode method');
   }
-  requestPasskey(device, pin) {
+  requestPasskey(device) {
     throw new Error('You must implement requestPasskey method');
   }
   displayPasskey(device, passKey, entered) {

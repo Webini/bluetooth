@@ -1,6 +1,5 @@
 const { service, bus } = require('./dbus.js');
 const promisify = require('./promisify');
-const createObject = require('./struct/object');
 const EventEmitter = require('events');
 const AgentInterface = require('./AgentInterface');
 const AgentCapabilities = require('./AgentCapabilities');
@@ -28,7 +27,7 @@ class AgentManager extends EventEmitter {
     return this.manager;
   }
 
-  async registerAgent(agent, cap = AgentCapabilities.displayYesNo) {
+  async registerAgent(agent, cap = AgentCapabilities.displayOnly) {
     const manager = await this.getManager();
     if (!this.nameRequested) {
       const retCode = await bus.requestName(AgentInterface.name, 0x04);
