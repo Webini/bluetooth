@@ -3,7 +3,7 @@ const promisify = require('./promisify');
 const createObject = require('./struct/object');
 const EventEmitter = require('events');
 const AdvertisementInterface = require('./AdvertisementInterface');
-const createIface = require('./struct/createIface');
+const createIfaceProxy = require('./tools/createIfaceProxy');
 
 const METHODS = [
   'RegisterAdvertisement', 
@@ -44,15 +44,19 @@ class AdvertisingManager extends EventEmitter {
       }
       this.nameRequested = true;
     }
-    console.log(createIface(advertisement), advertisement.path, AdvertisementInterface.name);
 
-    bus.exportInterface(createIface(advertisement), advertisement.path, AdvertisementInterface);
+    bus.exportInterface(
+      createIfaceProxy(advertisement, AdvertisementInterface), 
+      advertisement.path, 
+      AdvertisementInterface
+    );
+
     await manager.RegisterAdvertisement(advertisement.path, options);
   }
 
-  async unregisterAdvertisement(advertisement) {
+  async unregisterAdvertisement(service) {
     const manager = await this.getManager();
-    await manager.UnregisterAdvertisement(advertisement.path);
+    await manager.UnregisterAdvertisement(service);
   }
 }
 

@@ -4,7 +4,7 @@ const createObject = require('./struct/object');
 const EventEmitter = require('events');
 const AgentInterface = require('./AgentInterface');
 const AgentCapabilities = require('./AgentCapabilities');
-const createIface = require('./struct/createIface');
+const createIfaceProxy = require('./tools/createIfaceProxy');
 
 const METHODS = [
   'RegisterAgent', //visiblement pour le object c'est juste une string avec le path dbus de l'agent
@@ -39,7 +39,11 @@ class AgentManager extends EventEmitter {
       this.nameRequested = true;
     }
     
-    bus.exportInterface(createIface(agent), agent.path, AgentInterface);
+    bus.exportInterface(
+      createIfaceProxy(agent, AgentInterface), 
+      agent.path, 
+      AgentInterface
+    );
     await manager.RegisterAgent(agent.path, cap);
   }
 
