@@ -43,6 +43,7 @@ const Advertisement = require('../src/Advertisement');
         }
       } catch(e) {
         console.log('Catch on new', e);
+        process.exit(1);
       }
     }));
 
@@ -51,5 +52,6 @@ const Advertisement = require('../src/Advertisement');
     manager.on('removed', (name) => console.log('removed', name));
   } catch(e) {
     console.log('catch glob', e);
+    process.exit(1);
   }
 })();

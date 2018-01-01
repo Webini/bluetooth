@@ -1,6 +1,6 @@
 class Agent {
-  constructor(path = '/nodejs/agent') {
-    this.path = path;
+  constructor(path) {
+    this.path = path || '/nodejs/agent';
   }
 
   release() {

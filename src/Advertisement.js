@@ -4,8 +4,8 @@ const services = require('./struct/services');
  * https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/doc/advertising-api.txt
  */
 class Advertisement {
-  constructor(path = '/nodejs/advertisement') {
-    this.path = path;
+  constructor(path) {
+    this.path = path || '/nodejs/advertisement';
 
     // Possible values: "broadcast" or "peripheral"
     this.type = 'peripheral';
