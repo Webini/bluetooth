@@ -2,6 +2,7 @@ const EventEmitter = require('events');
 const { service } = require('./dbus.js');
 const INTERFACES = require('./struct/interfaces');
 const promisify = require('./promisify');
+const promisifyOne = require('util').promisify;
 
 const METHODS = [
   'RemoveDevice',
@@ -72,7 +73,8 @@ class Adapter extends EventEmitter {
 Object.keys(PROPERTIES).forEach((name) => {
   Adapter.prototype[`get${name}`] = async function() {
     const iface = await this.getInterface();
-    return iface[name];
+    const accessor = promisifyOne(iface[name]);
+    return await accessor();
   };
   if (PROPERTIES[name]) {
     Adapter.prototype[`set${name}`] = async function(value) {

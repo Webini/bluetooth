@@ -16,6 +16,7 @@ const Advertisement = require('../src/Advertisement');
 
       try {
         if (object.isAdapter) {
+          console.log(await object.adapter.getName());
           await object.adapter.setDiscoverableTimeout(0);
           await object.adapter.setDiscoverable(true);
           await object.adapter.setPairable(true);
