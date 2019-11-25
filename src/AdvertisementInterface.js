@@ -14,6 +14,7 @@ module.exports = {
     LocalName: 's',
     Appearance: 'q',
     Duration: 'q',
-    Timeout: 'q'
+    Timeout: 'q',
+    SecondaryChannel: 's',
   }
 };
